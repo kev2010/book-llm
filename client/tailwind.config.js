@@ -1,9 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+const { nextui } = require("@nextui-org/theme");
+
 export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/components/(alert|button|ripple|spinner).js",
   ],
   theme: {
     backgroundColor: (theme) => ({
@@ -40,5 +43,5 @@ export default {
     },
   },
   darkMode: "class",
-  plugins: [],
+  plugins: [nextui()],
 };

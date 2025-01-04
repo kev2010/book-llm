@@ -3,7 +3,7 @@ import Image from "next/image";
 import { cn } from "../utils/utils";
 import { CaretDownIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
-export default function Sidebar({ books, currentChat }) {
+export default function Sidebar({ books, currentChat, setShowAlert }) {
   const [expandedBooks, setExpandedBooks] = useState({});
   const initialLoad = useRef(true);
 
@@ -34,7 +34,10 @@ export default function Sidebar({ books, currentChat }) {
           </h1>
         </div>
       </div>
-      <div className="bg-customGray-800 border border-customGray-400 px-1 py-1 rounded-full w-full flex flex-row items-center justify-between mb-8">
+      <div
+        className="bg-customGray-800 border border-customGray-400 px-1 py-1 rounded-full w-full flex flex-row items-center justify-between mb-8"
+        onClick={() => setShowAlert(true)}
+      >
         <div className="flex flex-row items-center">
           <MagnifyingGlassIcon className="h-4 w-4 ml-1 mr-2 text-customGray-200" />
           <span className="text-customGray-200 text-sm">Search...</span>

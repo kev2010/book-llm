@@ -24,6 +24,7 @@ export default function Home() {
         "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
     },
   ]);
+  const [showAlert, setShowAlert] = useState(false);
 
   const sendMessage = (message) => {
     setMessages([...messages, { role: "user", content: message }]);
@@ -33,10 +34,19 @@ export default function Home() {
     <div>
       <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
         <div className="w-[16%]">
-          <Sidebar books={books} currentChat={currentChat} />
+          <Sidebar
+            books={books}
+            currentChat={currentChat}
+            setShowAlert={setShowAlert}
+          />
         </div>
         <div className="relative w-[84%] bg-customGray-900 flex flex-row border-l border-customGray-400">
-          <ChatPanel messages={messages} sendMessage={sendMessage} />
+          <ChatPanel
+            messages={messages}
+            sendMessage={sendMessage}
+            showAlert={showAlert}
+            setShowAlert={setShowAlert}
+          />
         </div>
       </div>
     </div>
