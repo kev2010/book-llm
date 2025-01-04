@@ -17,6 +17,7 @@ export default {
     extend: {
       colors: {
         primary: "#4919FF",
+        primaryLight: "#9981FF",
         alert: "#FF493E",
         progress: "#F9CB28",
         "customGray-50": "#EEEEEE",

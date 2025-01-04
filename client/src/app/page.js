@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import ChatPanel from "../components/chat/ChatPanel";
+
 export default function Home() {
   const [books, setBooks] = useState([
     {
@@ -33,14 +34,14 @@ export default function Home() {
   return (
     <div>
       <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
-        <div className="w-[16%]">
+        <div className="w-[15%]">
           <Sidebar
             books={books}
             currentChat={currentChat}
             setShowAlert={setShowAlert}
           />
         </div>
-        <div className="relative w-[84%] bg-customGray-900 flex flex-row border-l border-customGray-400">
+        <div className="relative w-[85%] bg-customGray-900 flex flex-row border-l border-customGray-400">
           <ChatPanel
             messages={messages}
             sendMessage={sendMessage}

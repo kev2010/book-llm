@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 // Components
 import InputBox from "./InputBox";
 import MessagesList from "./MessagesList";
+import Suggestions from "../Suggestions";
 // Custom Hooks
 import { useAutoScroll } from "../../hooks/useAutoScroll";
 import { cn } from "../../utils/utils";
@@ -42,6 +43,9 @@ export default function ChatPanel({
         messagesContainerRef={messagesContainerRef}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
+        <div className="mb-4">
+          <Suggestions />
+        </div>
         <InputBox isAIGeneratingResponse={false} sendMessage={sendMessage} />
       </div>
     </div>

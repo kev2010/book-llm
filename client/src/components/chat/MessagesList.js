@@ -36,7 +36,7 @@ function AIMessage({ content }) {
         height={128}
       />
       <div className="flex flex-col">
-        <p className="text-sm text-customGray-50 font-bold pl-4 pb-2">
+        <p className="text-base text-customGray-50 font-bold pl-4 pb-2">
           Chung Ju-Yung
         </p>
         <div
