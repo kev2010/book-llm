@@ -49,7 +49,7 @@ export default function Sidebar({ books, currentChat }) {
           "group hover:bg-customGray-600 -mx-3 px-3 py-1 rounded-lg"
         )}
       >
-        <span className="text-customGray-100 font-medium text-xs">Books</span>
+        <span className="text-customGray-50 font-medium text-xs">Books</span>
       </div>
       {books.map((book, idx) => (
         <div key={idx} className="mb-6">
