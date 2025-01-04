@@ -43,12 +43,7 @@ export default function Sidebar({ books, currentChat }) {
           <p className="text-customGray-200 text-sm">⌘K</p>
         </div>
       </div>
-      <div
-        className={cn(
-          "flex flex-row items-center justify-between cursor-pointer",
-          "group hover:bg-customGray-600 -mx-3 px-3 py-1 rounded-lg"
-        )}
-      >
+      <div className="flex flex-row items-center justify-between py-1">
         <span className="text-customGray-50 font-medium text-xs">Books</span>
       </div>
       {books.map((book, idx) => (
