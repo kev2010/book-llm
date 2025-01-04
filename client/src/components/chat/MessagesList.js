@@ -1,27 +1,53 @@
-import React from "react";
+import React, { useRef } from "react";
 import { cn } from "../../utils/utils";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
+import { useMultiline } from "../../hooks/useMultiline";
+import Image from "next/image";
+function UserMessage({ content }) {
+  const messagesContainerRef = useRef(null);
+  const isMultiline = useMultiline(messagesContainerRef);
 
-function UserMessage({ text }) {
   return (
     <div className="flex flex-col justify-end items-end ml-auto max-w-[82%]">
-      <div className={cn("bg-primary px-4 py-3", "rounded-lg")}>
-        <p className="text-base text-customGray-50 font-light">{text}</p>
+      <div
+        className={cn(
+          "bg-primary px-4 py-3",
+          isMultiline ? "rounded-lg" : "rounded-full"
+        )}
+        ref={messagesContainerRef}
+      >
+        <p className="text-base text-customGray-50 font-normal">{content}</p>
       </div>
     </div>
   );
 }
 
-function AIMessage({ text }) {
+function AIMessage({ content }) {
+  const messagesContainerRef = useRef(null);
+  const isMultiline = useMultiline(messagesContainerRef);
+
   return (
-    <div className="flex flex-row items-start max-w-[82%]">
-      <div
-        className={cn(
-          "flex flex-col border border-customGray-300 bg-customGray-700 px-4 py-3",
-          "rounded-lg"
-        )}
-      >
-        <p className="text-base text-customGray-50 font-light">{text}</p>
+    <div className="flex flex-row items-end max-w-[82%]">
+      <Image
+        src="/assets/chung.svg"
+        alt="Chung Ju-Yung"
+        className="w-12 h-12 mr-4"
+        width={128}
+        height={128}
+      />
+      <div className="flex flex-col">
+        <p className="text-sm text-customGray-50 font-bold pl-4 pb-2">
+          Chung Ju-Yung
+        </p>
+        <div
+          className={cn(
+            "flex flex-col border border-customGray-300 bg-customGray-700 px-4 py-3",
+            isMultiline ? "rounded-lg" : "rounded-full"
+          )}
+          ref={messagesContainerRef}
+        >
+          <p className="text-base text-customGray-50 font-normal">{content}</p>
+        </div>
       </div>
     </div>
   );
@@ -40,9 +66,9 @@ export default function MessagesList({
       {messages &&
         messages.map((message, index) => {
           if (message.role === "user") {
-            return <UserMessage key={index} text={message.text} />;
+            return <UserMessage key={index} content={message.content} />;
           } else {
-            return <AIMessage key={index} text={message.text} />;
+            return <AIMessage key={index} content={message.content} />;
           }
         })}
     </ScrollShadow>

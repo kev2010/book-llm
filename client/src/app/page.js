@@ -17,7 +17,17 @@ export default function Home() {
     // TODO: Will need something like updateTime for cache busting when we have chats in S3 bucket
     // updateTime: "",
   });
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content:
+        "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
+    },
+  ]);
+
+  const sendMessage = (message) => {
+    setMessages([...messages, { role: "user", content: message }]);
+  };
 
   return (
     <div>
@@ -26,7 +36,7 @@ export default function Home() {
           <Sidebar books={books} currentChat={currentChat} />
         </div>
         <div className="relative w-[84%] bg-customGray-900 flex flex-row border-l border-customGray-400">
-          <ChatPanel messages={messages} />
+          <ChatPanel messages={messages} sendMessage={sendMessage} />
         </div>
       </div>
     </div>

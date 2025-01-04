@@ -6,7 +6,7 @@ import MessagesList from "./MessagesList";
 import { useAutoScroll } from "../../hooks/useAutoScroll";
 import { cn } from "../../utils/utils";
 
-export default function ChatPanel({ messages }) {
+export default function ChatPanel({ messages, sendMessage }) {
   const messagesContainerRef = useRef(null);
   const horizontalPadding = "w-1/2"; // Same horizontal size for both messages list and input box
 
@@ -20,7 +20,7 @@ export default function ChatPanel({ messages }) {
         messagesContainerRef={messagesContainerRef}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
-        <InputBox isAIGeneratingResponse={false} sendMessage={() => {}} />
+        <InputBox isAIGeneratingResponse={false} sendMessage={sendMessage} />
       </div>
     </div>
   );

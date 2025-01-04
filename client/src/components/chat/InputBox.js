@@ -16,7 +16,7 @@ export default function InputBox({
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      if (text !== "" && resultRef.current === "" && !thinking) {
+      if (text !== "") {
         handleSubmit();
       }
     }
