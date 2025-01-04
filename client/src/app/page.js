@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
-
+import ChatPanel from "../components/chat/ChatPanel";
 export default function Home() {
   const [books, setBooks] = useState([
     {
@@ -17,6 +17,7 @@ export default function Home() {
     // TODO: Will need something like updateTime for cache busting when we have chats in S3 bucket
     // updateTime: "",
   });
+  const [messages, setMessages] = useState([]);
 
   return (
     <div>
@@ -24,7 +25,9 @@ export default function Home() {
         <div className="w-[16%]">
           <Sidebar books={books} currentChat={currentChat} />
         </div>
-        <div className="relative w-[84%] bg-customGray-900 flex flex-row border-l border-customGray-400"></div>
+        <div className="relative w-[84%] bg-customGray-900 flex flex-row border-l border-customGray-400">
+          <ChatPanel messages={messages} />
+        </div>
       </div>
     </div>
   );

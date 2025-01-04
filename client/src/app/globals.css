@@ -35,9 +35,26 @@
   }
 }
 
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--customGray-300);
+  border-radius: 14px;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --customGray-300: "#414141";
 }
 
 @media (prefers-color-scheme: dark) {
