@@ -15,7 +15,7 @@ export default function ChatPanel({
   setShowAlert,
 }) {
   const messagesContainerRef = useRef(null);
-  const horizontalPadding = "w-1/2"; // Same horizontal size for both messages list and input box
+  const horizontalPadding = "w-[42rem]"; // Same horizontal size for both messages list and input box
 
   useAutoScroll(messages, messagesContainerRef);
 

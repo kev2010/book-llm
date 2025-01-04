@@ -32,23 +32,24 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
-        <div className="w-[15%]">
-          <Sidebar
-            books={books}
-            currentChat={currentChat}
-            setShowAlert={setShowAlert}
-          />
-        </div>
-        <div className="relative w-[85%] bg-customGray-900 flex flex-row border-l border-customGray-400">
-          <ChatPanel
-            messages={messages}
-            sendMessage={sendMessage}
-            showAlert={showAlert}
-            setShowAlert={setShowAlert}
-          />
-        </div>
+    <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
+      <div className="w-72 hidden lg:block">
+        <Sidebar
+          books={books}
+          currentChat={currentChat}
+          setShowAlert={setShowAlert}
+        />
+      </div>
+      <div className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400">
+        <ChatPanel
+          messages={messages}
+          sendMessage={sendMessage}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+        />
+      </div>
+      <div className="lg:hidden w-full h-screen flex flex-col justify-center items-center text-lg text-customGray-50 bg-customGray-800 p-4">
+        Please view on laptop! This isn&apos;t made to be responsive
       </div>
     </div>
   );

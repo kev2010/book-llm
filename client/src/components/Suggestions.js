@@ -31,7 +31,7 @@ export default function Suggestions({}) {
           </span>
         </p>
       </div>
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-3">
         {suggestions.map((suggestion, index) => (
           <div
             key={index}
