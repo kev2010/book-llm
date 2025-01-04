@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
-export default function Suggestions({}) {
+export default function Suggestions({ sendMessage }) {
   const [suggestions, setSuggestions] = useState([
     "Tell me more about yourself!",
     "Can you share with me your most interesting story?",
@@ -36,6 +36,7 @@ export default function Suggestions({}) {
           <div
             key={index}
             className="rounded-full max-w-max bg-customGray-400 px-4 py-2 cursor-pointer hover:bg-customGray-300"
+            onClick={() => sendMessage(suggestion)}
           >
             <p className="text-sm">{suggestion}</p>
           </div>

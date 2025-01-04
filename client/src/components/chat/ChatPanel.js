@@ -43,9 +43,14 @@ export default function ChatPanel({
         messagesContainerRef={messagesContainerRef}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
-        <div className="mb-4">
-          <Suggestions />
-        </div>
+        {
+          // Only show suggestions when it's just the intro message
+          messages.length === 1 && (
+            <div className="mb-4">
+              <Suggestions sendMessage={sendMessage} />
+            </div>
+          )
+        }
         <InputBox isAIGeneratingResponse={false} sendMessage={sendMessage} />
       </div>
     </div>

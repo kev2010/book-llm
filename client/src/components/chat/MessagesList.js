@@ -3,6 +3,7 @@ import { cn } from "../../utils/utils";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { useMultiline } from "../../hooks/useMultiline";
 import Image from "next/image";
+
 function UserMessage({ content }) {
   const messagesContainerRef = useRef(null);
   const isMultiline = useMultiline(messagesContainerRef);
@@ -16,7 +17,7 @@ function UserMessage({ content }) {
         )}
         ref={messagesContainerRef}
       >
-        <p className="text-base text-customGray-50 font-normal">{content}</p>
+        <p className="text-base text-white font-normal">{content}</p>
       </div>
     </div>
   );
@@ -46,7 +47,7 @@ function AIMessage({ content }) {
           )}
           ref={messagesContainerRef}
         >
-          <p className="text-base text-customGray-50 font-normal">{content}</p>
+          <p className="text-base text-white font-normal">{content}</p>
         </div>
       </div>
     </div>
@@ -60,7 +61,10 @@ export default function MessagesList({
 }) {
   return (
     <ScrollShadow
-      className={cn("w-full overflow-y-auto mt-6 pb-6", horizontalPadding)}
+      className={cn(
+        "w-full overflow-y-auto mt-6 pb-6 space-y-4",
+        horizontalPadding
+      )}
       ref={messagesContainerRef}
     >
       {messages &&
