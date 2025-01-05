@@ -20,7 +20,7 @@ class RAGService:
     
     def get_relevant_chunks(self, query: str, top_embedding_k: int = 10) -> List[str]:
         relevant_embedding_chunks = self.get_relevant_embedding_chunks(query, top_embedding_k)
-        print(f"Relevant embedding chunks: {relevant_embedding_chunks[:5]}")
+        # print(f"Relevant embedding chunks: {relevant_embedding_chunks[:5]}")
 
         # Get the text from the metadata
         relevant_embedding_chunks_text = [chunk.metadata["text"] for chunk in relevant_embedding_chunks]
@@ -74,3 +74,9 @@ class RAGService:
         )
 
         return results.matches
+    
+    def get_relevant_bm25_chunks(self, query: str, top_bm25_k: int = 10) -> List[str]:
+        """
+        Get the top_bm25_k most relevant chunks from the RAG database for a given query.
+        """
+        pass
