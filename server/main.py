@@ -18,7 +18,6 @@ def read_root():
 
 @app.post("/getAIResponse")
 async def getAIResponse(request: MessageRequest):
-    print("request", request)
     response_generator = llm_service.generate_stream_responses(request.message_history)
     return StreamingResponse(response_generator, media_type="text/event-stream")
 
