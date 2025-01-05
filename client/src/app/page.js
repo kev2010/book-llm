@@ -1,8 +1,9 @@
 "use client"; // NOTE: I know this defeats the purpose of app router, but using client components for now (I'm used to pages router, will optimize with server components later)
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import ChatPanel from "../components/chat/ChatPanel";
+import { fetchAIResponse } from "./api";
 
 export default function Home() {
   const [books, setBooks] = useState([
@@ -27,9 +28,46 @@ export default function Home() {
   ]);
   const [showAlert, setShowAlert] = useState(false);
 
+  const getAIResponse = async () => {
+    // Parse the stream and append the message to the state
+    const reader = await fetchAIResponse(messages);
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+
+      const toAdd = new TextDecoder().decode(value);
+
+      setMessages((oldMessages) => {
+        const lastMessage = oldMessages[oldMessages.length - 1];
+        const isLastMessageFromUser = lastMessage.role === "user";
+
+        return isLastMessageFromUser
+          ? [...oldMessages, { role: "assistant", content: toAdd }]
+          : [
+              ...oldMessages.slice(0, -1),
+              {
+                ...lastMessage,
+                content: lastMessage.content + toAdd,
+              },
+            ];
+      });
+    }
+  };
+
   const sendMessage = (message) => {
     setMessages([...messages, { role: "user", content: message }]);
   };
+
+  // Generate an AI response when the user sends a message
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.role === "user") {
+      getAIResponse();
+    }
+  }, [messages]);
 
   return (
     <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
