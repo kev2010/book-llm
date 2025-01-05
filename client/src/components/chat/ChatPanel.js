@@ -13,6 +13,7 @@ export default function ChatPanel({
   sendMessage,
   showAlert,
   setShowAlert,
+  finishedResponding,
 }) {
   const messagesContainerRef = useRef(null);
   const horizontalPadding = "w-[42rem]"; // Same horizontal size for both messages list and input box
@@ -51,7 +52,10 @@ export default function ChatPanel({
             </div>
           )
         }
-        <InputBox isAIGeneratingResponse={false} sendMessage={sendMessage} />
+        <InputBox
+          isAIGeneratingResponse={!finishedResponding}
+          sendMessage={sendMessage}
+        />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ export default function InputBox({
   const isMultiline = useMultiline(textareaRef);
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !isAIGeneratingResponse) {
       event.preventDefault();
       if (text !== "") {
         handleSubmit();
@@ -72,7 +72,7 @@ export default function InputBox({
             "bg-primary disabled:bg-customGray-500"
           )}
           type="submit"
-          disabled={text === ""}
+          disabled={text === "" || isAIGeneratingResponse}
           onClick={handleSubmit}
         >
           <ArrowUpIcon width="20" height="20" className={"p-0"} />

@@ -1,6 +1,6 @@
 "use client"; // NOTE: I know this defeats the purpose of app router, but using client components for now (I'm used to pages router, will optimize with server components later)
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Sidebar";
 import ChatPanel from "../components/chat/ChatPanel";
 import { fetchAIResponse } from "./api";
@@ -27,33 +27,31 @@ export default function Home() {
     },
   ]);
   const [showAlert, setShowAlert] = useState(false);
+  const [isGeneratingResponse, setIsGeneratingResponse] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState("");
+  const bufferRef = useRef("");
+  const intervalIdRef = useRef(null);
+  const finishedResponding =
+    bufferRef.current.length === 0 && !isGeneratingResponse;
 
   const getAIResponse = async () => {
+    if (isGeneratingResponse) {
+      return;
+    }
+
+    setIsGeneratingResponse(true);
+
     // Parse the stream and append the message to the state
     const reader = await fetchAIResponse(messages);
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) {
+        setIsGeneratingResponse(false);
         break;
       }
 
-      const toAdd = new TextDecoder().decode(value);
-
-      setMessages((oldMessages) => {
-        const lastMessage = oldMessages[oldMessages.length - 1];
-        const isLastMessageFromUser = lastMessage.role === "user";
-
-        return isLastMessageFromUser
-          ? [...oldMessages, { role: "assistant", content: toAdd }]
-          : [
-              ...oldMessages.slice(0, -1),
-              {
-                ...lastMessage,
-                content: lastMessage.content + toAdd,
-              },
-            ];
-      });
+      bufferRef.current += new TextDecoder().decode(value);
     }
   };
 
@@ -68,6 +66,64 @@ export default function Home() {
       getAIResponse();
     }
   }, [messages]);
+
+  // To make streaming smoother, we use a buffer to store the AI response and append it to the state (otherwise it's way too fast)
+  useEffect(() => {
+    if (isGeneratingResponse) {
+      setCurrentMessage("");
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current); // Clear any existing interval
+      }
+
+      intervalIdRef.current = setInterval(() => {
+        if (finishedResponding) {
+          clearInterval(intervalIdRef.current);
+          intervalIdRef.current = null;
+        }
+
+        if (bufferRef.current.length > 0) {
+          const nextChar = bufferRef.current.charAt(0);
+          bufferRef.current = bufferRef.current.slice(1); // Remove the first character
+
+          setCurrentMessage((prevMessage) => prevMessage + nextChar);
+        }
+      }, 20);
+    }
+  }, [isGeneratingResponse]);
+
+  // We have a second buffer to store the current message and append it to the state
+  // I think this is necessary because using "setMessages" in a setInterval is a stale closure, so it always has an old value and thus overwrites itself
+  useEffect(() => {
+    if (currentMessage.length > 0) {
+      const toAdd = currentMessage;
+      setCurrentMessage("");
+
+      setMessages((prevMessages) => {
+        const lastMessage = prevMessages[prevMessages.length - 1];
+        const isLastMessageFromUser = lastMessage.role === "user";
+
+        return isLastMessageFromUser
+          ? [...prevMessages, { role: "assistant", content: toAdd }]
+          : [
+              ...prevMessages.slice(0, -1),
+              {
+                ...lastMessage,
+                content: lastMessage.content + toAdd,
+              },
+            ];
+      });
+    }
+  }, [currentMessage]);
+
+  useEffect(() => {
+    // Cleanup interval when component unmounts
+    return () => {
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
@@ -84,6 +140,7 @@ export default function Home() {
           sendMessage={sendMessage}
           showAlert={showAlert}
           setShowAlert={setShowAlert}
+          finishedResponding={finishedResponding}
         />
       </div>
       <div className="lg:hidden w-full h-screen flex flex-col justify-center items-center text-lg text-customGray-50 bg-customGray-800 p-4">
