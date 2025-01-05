@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Sidebar";
 import ChatPanel from "../components/chat/ChatPanel";
 import { fetchAIResponse } from "./api";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [books, setBooks] = useState([
@@ -87,7 +88,7 @@ export default function Home() {
 
           setCurrentMessage((prevMessage) => prevMessage + nextChar);
         }
-      }, 20);
+      }, 25);
     }
   }, [isGeneratingResponse]);
 
@@ -135,13 +136,20 @@ export default function Home() {
         />
       </div>
       <div className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400">
-        <ChatPanel
-          messages={messages}
-          sendMessage={sendMessage}
-          showAlert={showAlert}
-          setShowAlert={setShowAlert}
-          finishedResponding={finishedResponding}
-        />
+        <motion.div
+          className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ChatPanel
+            messages={messages}
+            sendMessage={sendMessage}
+            showAlert={showAlert}
+            setShowAlert={setShowAlert}
+            finishedResponding={finishedResponding}
+          />
+        </motion.div>
       </div>
       <div className="lg:hidden w-full h-screen flex flex-col justify-center items-center text-lg text-customGray-50 bg-customGray-800 p-4">
         Please view on laptop! This isn&apos;t made to be responsive

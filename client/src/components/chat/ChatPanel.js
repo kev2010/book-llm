@@ -7,6 +7,7 @@ import Suggestions from "../Suggestions";
 import { useAutoScroll } from "../../hooks/useAutoScroll";
 import { cn } from "../../utils/utils";
 import { Alert } from "@nextui-org/alert";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ChatPanel({
   messages,
@@ -45,14 +46,19 @@ export default function ChatPanel({
         finishedResponding={finishedResponding}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
-        {
-          // Only show suggestions when it's just the intro message
-          messages.length === 1 && (
-            <div className="mb-4">
+        <AnimatePresence>
+          {messages.length === 1 && (
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mb-4"
+            >
               <Suggestions sendMessage={sendMessage} />
-            </div>
-          )
-        }
+            </motion.div>
+          )}
+        </AnimatePresence>
         <InputBox
           isAIGeneratingResponse={!finishedResponding}
           sendMessage={sendMessage}
