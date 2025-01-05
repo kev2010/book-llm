@@ -1,5 +1,8 @@
 /server/born.pdf
 
+.venv/
+
+__pycache__/
 
 *.env
 
