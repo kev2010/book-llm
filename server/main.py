@@ -12,10 +12,6 @@ class MessageRequest(BaseModel):
 app = FastAPI()
 llm_service = LLMService()
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
 @app.post("/getAIResponse")
 async def getAIResponse(request: MessageRequest):
     response_generator = llm_service.generate_stream_responses(request.message_history)
