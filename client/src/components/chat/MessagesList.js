@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { cn } from "../../utils/utils";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { useMultiline } from "../../hooks/useMultiline";
+import { DotFilledIcon } from "@radix-ui/react-icons";
+
 import Image from "next/image";
 
 function UserMessage({ content }) {
@@ -23,7 +25,7 @@ function UserMessage({ content }) {
   );
 }
 
-function AIMessage({ content }) {
+function AIMessage({ content, finishedResponding, isLastMessage }) {
   const messagesContainerRef = useRef(null);
   const isMultiline = useMultiline(messagesContainerRef);
 
@@ -42,12 +44,17 @@ function AIMessage({ content }) {
         </p>
         <div
           className={cn(
-            "flex flex-col border border-customGray-300 bg-customGray-700 px-4 py-3",
+            "flex flex-row items-center justify-center border border-customGray-300 bg-customGray-700 px-4 py-3",
             isMultiline ? "rounded-lg" : "rounded-full"
           )}
           ref={messagesContainerRef}
         >
-          <p className="text-base text-white font-normal">{content}</p>
+          <p className="text-base text-white font-normal">
+            {content}
+            {!finishedResponding && isLastMessage && (
+              <span className="inline-block w-4 h-4 ml-1 bg-white rounded-full align-middle animate-pulse-strong" />
+            )}
+          </p>
         </div>
       </div>
     </div>
@@ -58,6 +65,7 @@ export default function MessagesList({
   messages,
   horizontalPadding,
   messagesContainerRef,
+  finishedResponding,
 }) {
   return (
     <ScrollShadow
@@ -72,7 +80,14 @@ export default function MessagesList({
           if (message.role === "user") {
             return <UserMessage key={index} content={message.content} />;
           } else {
-            return <AIMessage key={index} content={message.content} />;
+            return (
+              <AIMessage
+                key={index}
+                content={message.content}
+                finishedResponding={finishedResponding}
+                isLastMessage={index === messages.length - 1}
+              />
+            );
           }
         })}
     </ScrollShadow>

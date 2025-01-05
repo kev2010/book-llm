@@ -41,6 +41,15 @@ export default {
       height: {
         84: "21rem",
       },
+      animation: {
+        "pulse-strong": "pulse-strong 1s infinite",
+      },
+      keyframes: {
+        "pulse-strong": {
+          "0%, 100%": { opacity: "0.3" },
+          "50%": { opacity: "1" },
+        },
+      },
     },
   },
   darkMode: "class",

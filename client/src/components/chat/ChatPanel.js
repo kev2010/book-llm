@@ -42,6 +42,7 @@ export default function ChatPanel({
         messages={messages}
         horizontalPadding={horizontalPadding}
         messagesContainerRef={messagesContainerRef}
+        finishedResponding={finishedResponding}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
         {
