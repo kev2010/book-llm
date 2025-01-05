@@ -1,6 +1,7 @@
 /server/born.pdf
 /server/documents/
 /server/chunks/
+/server/embeddings/
 
 .venv/
 
