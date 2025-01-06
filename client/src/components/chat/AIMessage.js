@@ -132,18 +132,20 @@ export default function AIMessage({
       {/* Selection Menu - Fixed on the right side of the message (NOTE: We use a portal to prevent it from being clipped by the parent div)*/}
       {createPortal(
         <AnimatePresence>
-          {selectionMenu && selection && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed z-50"
-              style={{ left: position.left, top: position.top }}
-            >
-              <QuickPanel selection={selection} sendMessage={sendMessage} />
-            </motion.div>
-          )}
+          {(finishedResponding || !isLastMessage) &&
+            selectionMenu &&
+            selection && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed z-50"
+                style={{ left: position.left, top: position.top }}
+              >
+                <QuickPanel selection={selection} sendMessage={sendMessage} />
+              </motion.div>
+            )}
         </AnimatePresence>,
         document.body
       )}
