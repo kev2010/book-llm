@@ -25,7 +25,7 @@ export default function Home() {
     {
       role: "assistant",
       content:
-        "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
+        "Hi, I’m Chung Ju-Yung! My family and I grew up so poor that we once had to eat tree bark to survive. Since then, I've done a lot of things in my life: creating Hyundai, helping bring the 1988 Seoul Olympics to my country, and even driving 1,001 cows across the DMZ to promote peace with North Korea. \n\n What would you like to know about me?",
     },
   ]);
   // TODO: Threads data is local for now
