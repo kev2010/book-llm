@@ -23,9 +23,11 @@ With threads, you can create a separate thread on any AI response to ask more qu
 There are many times where parts of an LLM answer don't quite make sense or are too general. Normally, you'd have to copy/paste the response bit and then type out a whole "explain more" or "simplify this please". The Quick Panel provides one click shortcuts to save you time!
 
 **Artificial Throttling** ⏱️
+
 Since LLM response times have gotten super fast, generated responses could easily overload the user. To account for this, I've artificially throttled the responses (via a buffer and setInterval) to make the generated text extremely smooth
 
 **Contextual Retrieval** 📚
+
 Each chunk of text retrieved from the book for RAG is enriched with valuable context - including page numbers, chapter titles, and surrounding context. Otherwise, with standard RAG, a chunk alone may be out of place and would be difficult for the LLM to understand.
 
 ### Architecture
