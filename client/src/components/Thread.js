@@ -169,6 +169,7 @@ export default function Thread({
             prefillThreadText={prefillThreadText}
             isAIGeneratingResponse={!finishedResponding}
             sendMessage={sendMessage}
+            autoFocus={true}
           />
         </div>
       </div>

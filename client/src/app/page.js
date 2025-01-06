@@ -29,18 +29,7 @@ export default function Home() {
     },
   ]);
   // TODO: Local for now
-  const [threads, setThreads] = useState([
-    {
-      id: 0,
-      messages: [
-        {
-          role: "assistant",
-          content:
-            "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
-        },
-      ],
-    },
-  ]);
+  const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(-1);
   const [prefillThreadText, setPrefillThreadText] = useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -102,7 +91,12 @@ export default function Home() {
       },
     ]);
     setCurrentThread(messageID);
-    setPrefillThreadText(`"${selection}"`);
+    setPrefillThreadText(
+      `"""
+${selection}
+"""
+`
+    );
   };
 
   // Generate an AI response when the user sends a message

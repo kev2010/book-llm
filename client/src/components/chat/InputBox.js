@@ -9,6 +9,7 @@ export default function InputBox({
   isAIGeneratingResponse,
   sendMessage,
   placeholder = "Ask anything...",
+  autoFocus = false,
 }) {
   const [text, setText] = useState(prefillThreadText || "");
   const textareaRef = useRef(null);
@@ -27,6 +28,18 @@ export default function InputBox({
     sendMessage(text);
     setText("");
   };
+
+  useEffect(() => {
+    if (autoFocus && textareaRef.current) {
+      // Add a small delay to let animations complete
+      const timeoutId = setTimeout(() => {
+        textareaRef.current?.focus();
+        textareaRef.current?.setSelectionRange(text.length, text.length);
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [autoFocus, text]);
 
   return (
     // Use inline-flex since default display: block is adding ghost padding on the bottom
