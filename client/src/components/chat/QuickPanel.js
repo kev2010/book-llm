@@ -18,12 +18,12 @@ export default function QuickPanel({
         break;
       case "detail":
         sendMessage(
-          `Tell me more about: "${selection.text}". I'd like more details. Make it concise and give me interesting facts or things I wouldn't already know about!`
+          `Tell me more about: "${selection.text}". \n\nI'd like more details. Make it concise and give me interesting facts or things I wouldn't already know about!`
         );
         break;
       case "simplify":
         sendMessage(
-          `I'm interested in: "${selection.text}". Can you simplify this for me? Keep in mind my background and explain things step by step!`
+          `I'm interested in: "${selection.text}". \n\nCan you simplify this for me? Keep in mind my background and explain things step by step!`
         );
         break;
     }

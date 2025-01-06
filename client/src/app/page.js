@@ -131,7 +131,7 @@ ${selection}
 
           setCurrentMessage((prevMessage) => prevMessage + nextChar);
         }
-      }, 25);
+      }, 15);
     }
   }, [isGeneratingResponse]);
 

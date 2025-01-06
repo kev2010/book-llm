@@ -18,7 +18,9 @@ function UserMessage({ content }) {
         )}
         ref={userMessageRef}
       >
-        <p className="text-base text-white font-normal">{content}</p>
+        <p className="text-base text-white font-normal whitespace-pre-line">
+          {content}
+        </p>
       </div>
     </div>
   );
