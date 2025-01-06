@@ -30,12 +30,23 @@ export default function AIMessage({
         return;
       }
 
-      // Only show the menu when mouse is released
-      const range = sel.getRangeAt(0).cloneRange();
-      setSelection({ text, range });
+      // Check if selection is within this component
+      const range = sel.getRangeAt(0);
+      if (!aiMessageRef.current?.contains(range.commonAncestorContainer)) {
+        setSelectionMenu(false);
+        return;
+      }
+
+      setSelection({ text, range: range.cloneRange() });
     }
 
-    function handleMouseUp() {
+    function handleMouseUp(e) {
+      // Only process if the mouseup happened inside this component
+      if (!aiMessageRef.current?.contains(e.target)) {
+        setSelectionMenu(false);
+        return;
+      }
+
       const sel = window.getSelection();
       const text = sel.toString().trim();
 
