@@ -45,6 +45,8 @@ export default function ChatPanel({
         messagesContainerRef={messagesContainerRef}
         finishedResponding={finishedResponding}
         sendMessage={sendMessage}
+        avatarSize="normal"
+        allowQuickPanel={true}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
         <AnimatePresence>

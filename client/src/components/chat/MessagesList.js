@@ -30,6 +30,8 @@ export default function MessagesList({
   messagesContainerRef,
   finishedResponding,
   sendMessage,
+  avatarSize,
+  allowQuickPanel,
 }) {
   return (
     <ScrollShadow
@@ -51,6 +53,8 @@ export default function MessagesList({
                 finishedResponding={finishedResponding}
                 isLastMessage={index === messages.length - 1}
                 sendMessage={sendMessage}
+                avatarSize={avatarSize}
+                allowQuickPanel={allowQuickPanel}
               />
             );
           }

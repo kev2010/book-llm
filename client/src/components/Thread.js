@@ -1,26 +1,13 @@
-"use client"; // NOTE: I know this defeats the purpose of app router, but using client components for now (I'm used to pages router, will optimize with server components later)
+import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { cn } from "../utils/utils";
+import { CaretDownIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import MessagesList from "./chat/MessagesList";
+import InputBox from "./chat/InputBox";
+import { useAutoScroll } from "../hooks/useAutoScroll";
+import { fetchAIResponse } from "../app/api";
 
-import { useState, useEffect, useRef } from "react";
-import Sidebar from "../components/Sidebar";
-import ChatPanel from "../components/chat/ChatPanel";
-import Thread from "../components/Thread";
-import { fetchAIResponse } from "./api";
-import { motion } from "framer-motion";
-
-export default function Home() {
-  const [books, setBooks] = useState([
-    {
-      id: 0,
-      name: "Born Of This Land",
-      chats: [{ id: 0, date: "Today", title: "New Chat" }],
-    },
-  ]);
-  const [currentChat, setCurrentChat] = useState({
-    bookID: 0,
-    chatID: 0,
-    // TODO: Will need something like updateTime for cache busting when we have chats in S3 bucket
-    // updateTime: "",
-  });
+export default function Thread({}) {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -28,13 +15,17 @@ export default function Home() {
         "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
     },
   ]);
-  const [showAlert, setShowAlert] = useState(false);
+  const messagesContainerRef = useRef(null);
+  const horizontalPadding = "px-6";
+
+  // TODO: Most of this is duplicated from page.js -> NEEDS TO BE REFACTORED INTO A CUSTOM HOOK (if there's time)!
   const [isGeneratingResponse, setIsGeneratingResponse] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
   const bufferRef = useRef("");
   const intervalIdRef = useRef(null);
   const finishedResponding =
     bufferRef.current.length === 0 && !isGeneratingResponse;
+  useAutoScroll(messages, messagesContainerRef);
 
   const getAIResponse = async () => {
     if (isGeneratingResponse) {
@@ -128,36 +119,36 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800 [&_::selection]:bg-primaryLight/50 [&_::selection]:text-white">
-      <div className="w-72 hidden lg:block">
-        <Sidebar
-          books={books}
-          currentChat={currentChat}
-          setShowAlert={setShowAlert}
-        />
-      </div>
-      <div className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400">
-        <motion.div
-          className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+    <div className="flex flex-col w-full h-screen items-center justify-between bg-customGray-800">
+      <div className="flex flex-col h-full w-full overflow-hidden">
+        <p
+          className={cn(
+            "text-base font-semibold text-customGray-50 mt-4",
+            horizontalPadding
+          )}
         >
-          <ChatPanel
+          Thread
+        </p>
+        <div className={cn("w-full h-px bg-customGray-300 mt-4")} />
+        <div className="flex flex-grow overflow-auto">
+          <MessagesList
             messages={messages}
-            sendMessage={sendMessage}
-            showAlert={showAlert}
-            setShowAlert={setShowAlert}
+            horizontalPadding={horizontalPadding}
+            messagesContainerRef={messagesContainerRef}
             finishedResponding={finishedResponding}
+            sendMessage={sendMessage}
+            avatarSize="small"
+            allowQuickPanel={false}
           />
-        </motion.div>
-        <div className="w-[42rem] flex flex-col border-l border-customGray-400">
-          <Thread />
         </div>
       </div>
-
-      <div className="lg:hidden w-full h-screen flex flex-col justify-center items-center text-lg text-customGray-50 bg-customGray-800 p-4">
-        Please view on laptop! This isn&apos;t made to be responsive
+      <div className={cn("w-full mb-8 flex flex-col", horizontalPadding)}>
+        <div className="relative">
+          <InputBox
+            isAIGeneratingResponse={!finishedResponding}
+            sendMessage={sendMessage}
+          />
+        </div>
       </div>
     </div>
   );

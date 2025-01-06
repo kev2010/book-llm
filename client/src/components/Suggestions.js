@@ -13,7 +13,7 @@ export default function Suggestions({ sendMessage }) {
       <div className="flex flex-row items-center mb-6">
         <p className="flex flex-row items-center text-sm">
           Ask anything! Personality and answers are based on his autobiography:
-          <span className="flex flex-row items-center ml-1">
+          <span className="flex flex-row items-center ml-1 hover:cursor-pointer hover:underline hover:text-primaryLight">
             <a
               href="https://oceanofpdf.com/authors/chung-ju-yung/pdf-born-of-this-land-my-life-story-download/"
               target="_blank"
