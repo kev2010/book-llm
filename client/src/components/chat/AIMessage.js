@@ -24,6 +24,12 @@ export default function AIMessage({
   const [selection, setSelection] = useState(null);
   const [selectionMenu, setSelectionMenu] = useState(false);
   const [position, setPosition] = useState({ left: 0, top: 0 });
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Add useEffect to handle mounting
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // For handling selection of text and showing the quick panel
   useEffect(() => {
@@ -151,34 +157,35 @@ export default function AIMessage({
       )}
 
       {/* Selection Menu - Fixed on the right side of the message (NOTE: We use a portal to prevent it from being clipped by the parent div)*/}
-      {createPortal(
-        <AnimatePresence>
-          {allowQuickPanel &&
-            (finishedResponding || !isLastMessage) &&
-            selectionMenu &&
-            selection && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed z-50"
-                style={{ left: position.left, top: position.top }}
-              >
-                <QuickPanel
-                  messageID={id}
-                  selection={selection}
-                  sendMessage={sendMessage}
-                  allowCreateThread={
-                    !threads.some((thread) => thread.id === id)
-                  }
-                  createNewThread={createNewThread}
-                />
-              </motion.div>
-            )}
-        </AnimatePresence>,
-        document.body
-      )}
+      {isMounted &&
+        createPortal(
+          <AnimatePresence>
+            {allowQuickPanel &&
+              (finishedResponding || !isLastMessage) &&
+              selectionMenu &&
+              selection && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="fixed z-50"
+                  style={{ left: position.left, top: position.top }}
+                >
+                  <QuickPanel
+                    messageID={id}
+                    selection={selection}
+                    sendMessage={sendMessage}
+                    allowCreateThread={
+                      !threads.some((thread) => thread.id === id)
+                    }
+                    createNewThread={createNewThread}
+                  />
+                </motion.div>
+              )}
+          </AnimatePresence>,
+          document.body
+        )}
     </div>
   );
 }

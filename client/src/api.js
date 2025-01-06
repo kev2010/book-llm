@@ -1,7 +1,7 @@
 // This file is a collection of functions that interact with the NextJS API
 
 export const fetchAIResponse = async (messageHistory) => {
-  const apiEndpoint = "/api/chat/getAIResponse";
+  const apiEndpoint = "/api/getAIResponse";
 
   // Call the getAIResponse API endpoint
   const response = await fetch(apiEndpoint, {

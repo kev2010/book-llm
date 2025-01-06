@@ -1,10 +1,8 @@
-"use client"; // NOTE: I know this defeats the purpose of app router, but using client components for now (I'm used to pages router, will optimize with server components later)
-
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Sidebar";
 import ChatPanel from "../components/chat/ChatPanel";
 import Thread from "../components/Thread";
-import { fetchAIResponse } from "./api";
+import { fetchAIResponse } from "../api";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {

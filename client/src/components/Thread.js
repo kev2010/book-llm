@@ -10,7 +10,7 @@ import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import MessagesList from "./chat/MessagesList";
 import InputBox from "./chat/InputBox";
 import { useAutoScroll } from "../hooks/useAutoScroll";
-import { fetchAIResponse } from "../app/api";
+import { fetchAIResponse } from "../api";
 
 export default function Thread({
   threads,

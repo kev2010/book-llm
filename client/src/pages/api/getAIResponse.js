@@ -2,7 +2,14 @@ export const config = {
   runtime: "edge",
 };
 
-export async function POST(req) {
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const reqJSON = await req.json();
     const { messageHistory } = reqJSON;
