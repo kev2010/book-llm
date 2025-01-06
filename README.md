@@ -6,6 +6,10 @@ _BookLLM_ is an extraordinary answer engine that brings books to life! Step into
 
 All answer engine responses use RAG on his ~380 page book ([download PDF here](https://oceanofpdf.com/authors/chung-ju-yung/pdf-born-of-this-land-my-life-story-download/)) to grab relevant chunks of information. You can also look at my [Figma designs here](https://www.figma.com/design/0ky9243WnNQmxIliAhE9hO/Perplexity-Take-Home?node-id=0-1&t=XThwfLl6yEyxDa8n-1) or my [prep notes here](https://useful-gerbil-987.notion.site/Perplexity-Take-Home-170bfb58abc48008a791db136888582d?pvs=4)
 
+### Demo
+
+Watch a quick demo of the app here: [Demo Video](https://drive.google.com/file/d/1tU4DZG4T2y9028hipna3hcrcOuEJOhTW/view?usp=sharing)
+
 ### Unique Features
 
 **Threads** 🧵
