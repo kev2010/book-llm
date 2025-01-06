@@ -11,6 +11,7 @@ export default function AIMessage({
   content,
   finishedResponding,
   isLastMessage,
+  sendMessage,
 }) {
   const aiMessageRef = useRef(null);
   const isMultiline = useMultiline(aiMessageRef);
@@ -140,7 +141,7 @@ export default function AIMessage({
               className="fixed z-50"
               style={{ left: position.left, top: position.top }}
             >
-              <QuickPanel selection={selection} />
+              <QuickPanel selection={selection} sendMessage={sendMessage} />
             </motion.div>
           )}
         </AnimatePresence>,

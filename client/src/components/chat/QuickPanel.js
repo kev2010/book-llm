@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
-export default function QuickPanel({ selection }) {
+export default function QuickPanel({ selection, sendMessage }) {
   // Handle menu actions
   const handleMenuAction = (action) => {
     if (!selection) return;
@@ -12,12 +12,14 @@ export default function QuickPanel({ selection }) {
         // Your thread opening logic here
         break;
       case "detail":
-        console.log("More detail for:", selection.text);
-        // Your detail logic here
+        sendMessage(
+          `Tell me more about: "${selection.text}". I'd like more details. Make it concise and give me interesting facts or things I wouldn't already know about!`
+        );
         break;
       case "simplify":
-        console.log("Simplifying:", selection.text);
-        // Your simplify logic here
+        sendMessage(
+          `I'm interested in: "${selection.text}". Can you simplify this for me? Keep in mind my background and explain things step by step!`
+        );
         break;
     }
   };

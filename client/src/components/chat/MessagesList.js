@@ -29,6 +29,7 @@ export default function MessagesList({
   horizontalPadding,
   messagesContainerRef,
   finishedResponding,
+  sendMessage,
 }) {
   return (
     <ScrollShadow
@@ -49,6 +50,7 @@ export default function MessagesList({
                 content={message.content}
                 finishedResponding={finishedResponding}
                 isLastMessage={index === messages.length - 1}
+                sendMessage={sendMessage}
               />
             );
           }

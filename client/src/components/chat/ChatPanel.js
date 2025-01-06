@@ -44,6 +44,7 @@ export default function ChatPanel({
         horizontalPadding={horizontalPadding}
         messagesContainerRef={messagesContainerRef}
         finishedResponding={finishedResponding}
+        sendMessage={sendMessage}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
         <AnimatePresence>
