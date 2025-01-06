@@ -98,8 +98,7 @@ export default function AIMessage({
   return (
     <div
       className={cn(
-        "flex flex-row items-end max-w-[82%] relative group overflow-visible",
-        "[&>div]:!overflow-visible"
+        "flex flex-row items-end max-w-[82%] relative group overflow-visible"
       )}
     >
       <Image

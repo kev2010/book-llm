@@ -127,7 +127,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800">
+    <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800 [&_::selection]:bg-primaryLight/50 [&_::selection]:text-white">
       <div className="w-72 hidden lg:block">
         <Sidebar
           books={books}
