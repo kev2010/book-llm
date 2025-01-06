@@ -1,20 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { cn } from "../utils/utils";
-import { CaretDownIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import MessagesList from "./chat/MessagesList";
 import InputBox from "./chat/InputBox";
 import { useAutoScroll } from "../hooks/useAutoScroll";
 import { fetchAIResponse } from "../app/api";
 
-export default function Thread({}) {
-  const [messages, setMessages] = useState([
-    {
-      role: "assistant",
-      content:
-        "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
-    },
-  ]);
+export default function Thread({
+  threads,
+  currentThread,
+  viewThread,
+  updateThread,
+}) {
+  const [messages, setMessages] = useState([]);
   const messagesContainerRef = useRef(null);
   const horizontalPadding = "px-6";
 
@@ -51,6 +50,17 @@ export default function Thread({}) {
   const sendMessage = (message) => {
     setMessages([...messages, { role: "user", content: message }]);
   };
+
+  useEffect(() => {
+    const threadMessages = threads.find(
+      (thread) => thread.id === currentThread
+    ).messages;
+    setMessages(threadMessages);
+  }, [currentThread]);
+
+  useEffect(() => {
+    updateThread(currentThread, messages);
+  }, [messages]);
 
   // Generate an AI response when the user sends a message
   useEffect(() => {
@@ -121,14 +131,21 @@ export default function Thread({}) {
   return (
     <div className="flex flex-col w-full h-screen items-center justify-between bg-customGray-800">
       <div className="flex flex-col h-full w-full overflow-hidden">
-        <p
-          className={cn(
-            "text-base font-semibold text-customGray-50 mt-4",
-            horizontalPadding
-          )}
+        <div
+          className={cn("flex flex-row items-center w-full", horizontalPadding)}
         >
-          Thread
-        </p>
+          <ArrowLeftIcon
+            className="w-5 h-5 text-white mt-4 hover:cursor-pointer hover:text-primaryLight"
+            onClick={() => viewThread(-1)}
+          />
+          <p
+            className={cn(
+              "text-base font-semibold text-customGray-50 mt-4 ml-4"
+            )}
+          >
+            Thread
+          </p>
+        </div>
         <div className={cn("w-full h-px bg-customGray-300 mt-4")} />
         <div className="flex flex-grow overflow-auto">
           <MessagesList

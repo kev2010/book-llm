@@ -32,6 +32,8 @@ export default function MessagesList({
   sendMessage,
   avatarSize,
   allowQuickPanel,
+  threads,
+  viewThread,
 }) {
   return (
     <ScrollShadow
@@ -49,12 +51,15 @@ export default function MessagesList({
             return (
               <AIMessage
                 key={index}
+                id={index}
                 content={message.content}
                 finishedResponding={finishedResponding}
                 isLastMessage={index === messages.length - 1}
                 sendMessage={sendMessage}
                 avatarSize={avatarSize}
                 allowQuickPanel={allowQuickPanel}
+                threads={threads}
+                viewThread={viewThread}
               />
             );
           }

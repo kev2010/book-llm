@@ -8,12 +8,15 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // TODO: Later move to custom hook
 export default function AIMessage({
+  id,
   content,
   finishedResponding,
   isLastMessage,
   avatarSize,
   sendMessage,
   allowQuickPanel,
+  threads,
+  viewThread,
 }) {
   const aiMessageRef = useRef(null);
   const isMultiline = useMultiline(aiMessageRef);
@@ -129,8 +132,11 @@ export default function AIMessage({
           </div>
         </div>
       </div>
-      {allowQuickPanel && (
-        <div className="flex flex-row items-center justify-end mt-2 hover:cursor-pointer hover:underline hover:text-primaryLight">
+      {allowQuickPanel && threads.some((thread) => thread.id === id) && (
+        <div
+          className="flex flex-row items-center justify-end mt-2 hover:cursor-pointer hover:underline hover:text-primaryLight"
+          onClick={() => viewThread(id)}
+        >
           <Image
             src="/assets/thread_active.svg"
             alt="Thread"
@@ -157,7 +163,13 @@ export default function AIMessage({
                 className="fixed z-50"
                 style={{ left: position.left, top: position.top }}
               >
-                <QuickPanel selection={selection} sendMessage={sendMessage} />
+                <QuickPanel
+                  selection={selection}
+                  sendMessage={sendMessage}
+                  allowCreateThread={
+                    !threads.some((thread) => thread.id === id)
+                  }
+                />
               </motion.div>
             )}
         </AnimatePresence>,

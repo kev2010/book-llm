@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 import ChatPanel from "../components/chat/ChatPanel";
 import Thread from "../components/Thread";
 import { fetchAIResponse } from "./api";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [books, setBooks] = useState([
@@ -28,6 +28,20 @@ export default function Home() {
         "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
     },
   ]);
+  // TODO: Local for now
+  const [threads, setThreads] = useState([
+    {
+      id: 0,
+      messages: [
+        {
+          role: "assistant",
+          content:
+            "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
+        },
+      ],
+    },
+  ]);
+  const [currentThread, setCurrentThread] = useState(-1);
   const [showAlert, setShowAlert] = useState(false);
   const [isGeneratingResponse, setIsGeneratingResponse] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
@@ -59,6 +73,18 @@ export default function Home() {
 
   const sendMessage = (message) => {
     setMessages([...messages, { role: "user", content: message }]);
+  };
+
+  const viewThread = (id) => {
+    setCurrentThread(id);
+  };
+
+  const updateThread = (id, messages) => {
+    setThreads((prevThreads) => {
+      return prevThreads.map((thread) =>
+        thread.id === id ? { ...thread, messages } : thread
+      );
+    });
   };
 
   // Generate an AI response when the user sends a message
@@ -129,7 +155,7 @@ export default function Home() {
 
   return (
     <div className="h-full min-h-screen w-full flex flex-row bg-customGray-800 [&_::selection]:bg-primaryLight/50 [&_::selection]:text-white">
-      <div className="w-72 hidden lg:block">
+      <div className="w-72 hidden lg:block flex-shrink-0">
         <Sidebar
           books={books}
           currentChat={currentChat}
@@ -137,23 +163,50 @@ export default function Home() {
         />
       </div>
       <div className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400">
-        <motion.div
-          className="relative w-full hidden lg:flex lg:flex-row bg-customGray-900 border-l border-customGray-400"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <ChatPanel
-            messages={messages}
-            sendMessage={sendMessage}
-            showAlert={showAlert}
-            setShowAlert={setShowAlert}
-            finishedResponding={finishedResponding}
-          />
-        </motion.div>
-        <div className="w-[42rem] flex flex-col border-l border-customGray-400">
-          <Thread />
-        </div>
+        <AnimatePresence>
+          <motion.div
+            className="relative w-full bg-customGray-900 border-l border-customGray-400"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              width: currentThread !== -1 ? "calc(100% - 30rem)" : "100%",
+            }}
+            transition={{
+              opacity: { duration: 0.5 },
+              width: { duration: 0.2, ease: "easeInOut" },
+            }}
+          >
+            <ChatPanel
+              messages={messages}
+              sendMessage={sendMessage}
+              showAlert={showAlert}
+              setShowAlert={setShowAlert}
+              finishedResponding={finishedResponding}
+              viewThread={viewThread}
+              threads={threads}
+            />
+          </motion.div>
+        </AnimatePresence>
+        {currentThread !== -1 && (
+          <div className="w-[30rem] flex flex-col border-l border-customGray-400">
+            <motion.div
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0 }}
+              transition={{
+                x: { duration: 0.2, ease: "easeInOut" },
+                opacity: { duration: 0.2 },
+              }}
+            >
+              <Thread
+                threads={threads}
+                currentThread={currentThread}
+                viewThread={viewThread}
+                updateThread={updateThread}
+              />
+            </motion.div>
+          </div>
+        )}
       </div>
 
       <div className="lg:hidden w-full h-screen flex flex-col justify-center items-center text-lg text-customGray-50 bg-customGray-800 p-4">
