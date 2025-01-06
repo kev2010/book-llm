@@ -17,6 +17,7 @@ export default function AIMessage({
   allowQuickPanel,
   threads,
   viewThread,
+  createNewThread,
 }) {
   const aiMessageRef = useRef(null);
   const isMultiline = useMultiline(aiMessageRef);
@@ -164,11 +165,13 @@ export default function AIMessage({
                 style={{ left: position.left, top: position.top }}
               >
                 <QuickPanel
+                  messageID={id}
                   selection={selection}
                   sendMessage={sendMessage}
                   allowCreateThread={
                     !threads.some((thread) => thread.id === id)
                   }
+                  createNewThread={createNewThread}
                 />
               </motion.div>
             )}

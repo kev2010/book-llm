@@ -34,6 +34,7 @@ export default function MessagesList({
   allowQuickPanel,
   threads,
   viewThread,
+  createNewThread,
 }) {
   return (
     <ScrollShadow
@@ -60,6 +61,7 @@ export default function MessagesList({
                 allowQuickPanel={allowQuickPanel}
                 threads={threads}
                 viewThread={viewThread}
+                createNewThread={createNewThread}
               />
             );
           }

@@ -5,11 +5,12 @@ import { useMultiline } from "../../hooks/useMultiline";
 import TextareaAutosize from "react-textarea-autosize";
 
 export default function InputBox({
+  prefillThreadText,
   isAIGeneratingResponse,
   sendMessage,
   placeholder = "Ask anything...",
 }) {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(prefillThreadText || "");
   const textareaRef = useRef(null);
   const isMultiline = useMultiline(textareaRef);
 

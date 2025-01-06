@@ -17,6 +17,7 @@ export default function ChatPanel({
   finishedResponding,
   viewThread,
   threads,
+  createNewThread,
 }) {
   const messagesContainerRef = useRef(null);
   const horizontalPadding = "w-[42rem]"; // Same horizontal size for both messages list and input box
@@ -51,6 +52,7 @@ export default function ChatPanel({
         allowQuickPanel={true}
         threads={threads}
         viewThread={viewThread}
+        createNewThread={createNewThread}
       />
       <div className={cn("w-full mb-8", horizontalPadding)}>
         <AnimatePresence>

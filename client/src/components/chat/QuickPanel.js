@@ -2,9 +2,11 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
 export default function QuickPanel({
+  messageID,
   selection,
   sendMessage,
   allowCreateThread,
+  createNewThread,
 }) {
   // Handle menu actions
   const handleMenuAction = (action) => {
@@ -12,8 +14,7 @@ export default function QuickPanel({
 
     switch (action) {
       case "thread":
-        console.log("Opening thread for:", selection.text);
-        // Your thread opening logic here
+        createNewThread(messageID, selection.text);
         break;
       case "detail":
         sendMessage(

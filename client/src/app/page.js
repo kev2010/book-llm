@@ -42,6 +42,7 @@ export default function Home() {
     },
   ]);
   const [currentThread, setCurrentThread] = useState(-1);
+  const [prefillThreadText, setPrefillThreadText] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [isGeneratingResponse, setIsGeneratingResponse] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
@@ -85,6 +86,23 @@ export default function Home() {
         thread.id === id ? { ...thread, messages } : thread
       );
     });
+  };
+
+  const createNewThread = (messageID, selection) => {
+    setThreads((prevThreads) => [
+      ...prevThreads,
+      {
+        id: messageID,
+        messages: [
+          {
+            role: "assistant",
+            content: messages[messageID].content,
+          },
+        ],
+      },
+    ]);
+    setCurrentThread(messageID);
+    setPrefillThreadText(`"${selection}"`);
   };
 
   // Generate an AI response when the user sends a message
@@ -184,6 +202,7 @@ export default function Home() {
               finishedResponding={finishedResponding}
               viewThread={viewThread}
               threads={threads}
+              createNewThread={createNewThread}
             />
           </motion.div>
         </AnimatePresence>
@@ -203,6 +222,7 @@ export default function Home() {
                 currentThread={currentThread}
                 viewThread={viewThread}
                 updateThread={updateThread}
+                prefillThreadText={prefillThreadText}
               />
             </motion.div>
           </div>

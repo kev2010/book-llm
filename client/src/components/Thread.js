@@ -12,6 +12,7 @@ export default function Thread({
   currentThread,
   viewThread,
   updateThread,
+  prefillThreadText,
 }) {
   const [messages, setMessages] = useState([]);
   const messagesContainerRef = useRef(null);
@@ -156,12 +157,16 @@ export default function Thread({
             sendMessage={sendMessage}
             avatarSize="small"
             allowQuickPanel={false}
+            threads={[]}
+            viewThread={() => {}}
+            createNewThread={() => {}}
           />
         </div>
       </div>
       <div className={cn("w-full mb-8 flex flex-col", horizontalPadding)}>
         <div className="relative">
           <InputBox
+            prefillThreadText={prefillThreadText}
             isAIGeneratingResponse={!finishedResponding}
             sendMessage={sendMessage}
           />
