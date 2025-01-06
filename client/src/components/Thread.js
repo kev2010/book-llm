@@ -1,3 +1,8 @@
+/*
+IMPORTANT NOTE:
+
+Most of the functions + useEffects are duplicated from page.js (the chat functionality) -> NEEDS TO BE REFACTORED INTO A CUSTOM HOOK (if there's time)!
+*/
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { cn } from "../utils/utils";
@@ -18,7 +23,6 @@ export default function Thread({
   const messagesContainerRef = useRef(null);
   const horizontalPadding = "px-6";
 
-  // TODO: Most of this is duplicated from page.js -> NEEDS TO BE REFACTORED INTO A CUSTOM HOOK (if there's time)!
   const [isGeneratingResponse, setIsGeneratingResponse] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
   const bufferRef = useRef("");

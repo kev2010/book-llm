@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
+import { createRoot } from "react-dom/client";
+import Markdown from "react-markdown";
 import { cn } from "../../utils/utils";
 import { useMultiline } from "../../hooks/useMultiline";
 import QuickPanel from "./QuickPanel";
@@ -124,15 +126,34 @@ export default function AIMessage({
             )}
             ref={aiMessageRef}
           >
-            <p className="text-base text-white font-normal">
-              {content}
-              {!finishedResponding && isLastMessage && (
-                <span className="inline-block w-4 h-4 ml-1 bg-white rounded-full align-middle animate-pulse-strong" />
-              )}
-            </p>
+            <div className="text-base text-white font-normal max-w-none">
+              <Markdown
+                components={{
+                  // Override paragraph to render inline with the cursor
+                  p: ({ children }) => (
+                    <span className="inline">
+                      {children}
+                      {!finishedResponding && isLastMessage && (
+                        <span className="inline-block w-4 h-4 ml-1 bg-white rounded-full align-middle" />
+                      )}
+                    </span>
+                  ),
+                  // Ensure other block elements don't break the inline flow
+                  pre: ({ children }) => (
+                    <span className="inline">{children}</span>
+                  ),
+                  code: ({ children }) => (
+                    <code className="inline">{children}</code>
+                  ),
+                }}
+              >
+                {content}
+              </Markdown>
+            </div>
           </div>
         </div>
       </div>
+
       {allowQuickPanel && threads.some((thread) => thread.id === id) && (
         <div
           className="flex flex-row items-center justify-end mt-2 hover:cursor-pointer hover:underline hover:text-primaryLight"

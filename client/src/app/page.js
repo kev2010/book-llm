@@ -28,7 +28,7 @@ export default function Home() {
         "Hello, I’m Chung Ju-Yung! My family and I grew up so poor that we ate tree bark to survive. I ran away from home four times to chase my dreams, and built Hyundai .... [todo]",
     },
   ]);
-  // TODO: Local for now
+  // TODO: Threads data is local for now
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(-1);
   const [prefillThreadText, setPrefillThreadText] = useState("");
@@ -65,10 +65,12 @@ export default function Home() {
     setMessages([...messages, { role: "user", content: message }]);
   };
 
+  // Toggles what thread is currently being viewed (id is -1 if no thread is being viewed)
   const viewThread = (id) => {
     setCurrentThread(id);
   };
 
+  // Since we're storing threads locally, we need to update the thread with the given id with the new messages
   const updateThread = (id, messages) => {
     setThreads((prevThreads) => {
       return prevThreads.map((thread) =>
@@ -77,6 +79,8 @@ export default function Home() {
     });
   };
 
+  // Creates a new thread associated with the given message id
+  // Also auto sets the current thread to the new thread + prefills the thread with the message content + prefills input box
   const createNewThread = (messageID, selection) => {
     setThreads((prevThreads) => [
       ...prevThreads,
