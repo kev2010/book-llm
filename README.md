@@ -2,7 +2,7 @@
 
 ### About
 
-_BookLLM_ is an extraordinary answer engine that brings books to life! Step into the pages of _Born of This Land_, the remarkable autobiography of Chung Ju-yung. From humble beginnings where he survived on tree bark, to building the industrial giant Hyundai, his inspiring journey is filled with wisdom and captivating stories. Experience his incredible tale firsthand at https://book-llm.vercel.app/
+_BookLLM_ is an answer engine that brings books to life! For now, only _Born of This Land_ is available — it's a remarkable autobiography of Chung Ju-yung. From humble beginnings where he survived on tree bark, to building the industrial giant Hyundai, his inspiring journey is filled with wisdom and captivating stories :). Chat here: https://book-llm.vercel.app/
 
 All answer engine responses use RAG on his ~380 page book ([download PDF here](https://oceanofpdf.com/authors/chung-ju-yung/pdf-born-of-this-land-my-life-story-download/)) to grab relevant chunks of information. You can also look at my [Figma designs here](https://www.figma.com/design/0ky9243WnNQmxIliAhE9hO/Perplexity-Take-Home?node-id=0-1&t=XThwfLl6yEyxDa8n-1) or my [prep notes here](https://useful-gerbil-987.notion.site/Perplexity-Take-Home-170bfb58abc48008a791db136888582d?pvs=4)
 
