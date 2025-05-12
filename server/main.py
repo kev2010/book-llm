@@ -13,6 +13,9 @@ class TestFailureRequest(BaseModel):
     test_name: str
     error_message: str
     error_context: str = ""
+    test_code: str = ""
+    screenshot: str = ""
+    error_context_md: str = ""
 
 app = FastAPI()
 llm_service = LLMService()
@@ -30,6 +33,18 @@ async def classify_test_failure(request: TestFailureRequest):
         error_context=request.error_context
     )
     return {"classification": result}
+
+@app.post("/selfHealTest")
+async def self_heal_test(request: TestFailureRequest):
+    result = await llm_service.self_heal_test(
+        test_name=request.test_name,
+        error_message=request.error_message,
+        error_context=request.error_context,
+        test_code=request.test_code,
+        screenshot=request.screenshot,
+        error_context_md=request.error_context_md
+    )
+    return result
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

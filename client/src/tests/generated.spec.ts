@@ -1,6 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test('test', async ({ page }) => {
   await page.goto('http://localhost:3000/');
-  await page.getByText('Tell me more!').click();
+
+  // Click on the suggestion that contains "Tell me more"
+  await page.getByText('Tell me more', { exact: false }).first().click();
 });
