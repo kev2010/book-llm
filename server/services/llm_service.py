@@ -74,3 +74,20 @@ Message history:
 
         except OpenAIError as e:
             yield json.dumps({"error": str(e)})
+
+    async def classify_test_failure(self, test_name: str, error_message: str, error_context: str = "") -> str:
+        prompt = f"""
+        You are an expert software QA agent. You are given the following test failure information:
+
+        Test Name: {test_name}
+        Error Message: {error_message}
+        Error Context: {error_context}
+
+        Classify this failure as either 'self-heal' (if it is likely due to a simple copy/text change or other flakiness that can be automatically fixed) or 'escalate' (if it is a real bug or needs human attention). Respond with only 'self-heal' or 'escalate'.
+        """
+        response = self.client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": prompt}],
+            max_tokens=10,
+        )
+        return response.choices[0].message.content.strip().lower()
