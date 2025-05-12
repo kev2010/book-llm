@@ -74,3 +74,52 @@ Message history:
 
         except OpenAIError as e:
             yield json.dumps({"error": str(e)})
+
+    async def classify_test_failure(self, test_name: str, error_message: str, error_context: str = "") -> str:
+        prompt = f"""
+        You are an expert software QA agent. You are given the following test failure information:
+
+        Test Name: {test_name}
+        Error Message: {error_message}
+        Error Context: {error_context}
+
+        Classify this failure as either 'self-heal' (if it is likely due to a simple copy/text change or other flakiness that can be automatically fixed) or 'escalate' (if it is a real bug or needs human attention). Respond with only 'self-heal' or 'escalate'.
+        """
+        response = self.client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": prompt}],
+            max_tokens=10,
+        )
+        return response.choices[0].message.content.strip().lower()
+
+    async def self_heal_test(self, test_name: str, error_message: str, error_context: str = "", test_code: str = "", screenshot: str = "", error_context_md: str = "") -> Dict[str, Any]:
+        prompt = f"""
+        You are an expert software QA agent. You are given a failing test that needs to be fixed. Here is the information:
+
+        Test Name: {test_name}
+        Error Message: {error_message}
+        Error Context: {error_context}
+        Original Test Code: {test_code}
+        Error Context Markdown: {error_context_md}
+
+        Your task is to fix the test. Return ONLY the fixed test code and NOTHING else. The code should be a complete, runnable test that addresses the failure.
+        Make sure to:
+        1. Keep the same test name and structure
+        2. Fix the specific issue causing the failure
+        3. Maintain any important test setup and teardown
+        4. Keep the same assertions but fix their implementation if needed
+        5. Return the complete test code, not just the changes
+        """
+        
+        response = self.client.chat.completions.create(
+            model="o3",
+            messages=[{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": prompt}],
+            max_completion_tokens=1000,
+        )
+        
+        fixed_code = response.choices[0].message.content.strip()
+        
+        return {
+            "fixed_code": fixed_code,
+            "confidence": 0.8  # We could make this more sophisticated based on the response
+        }
